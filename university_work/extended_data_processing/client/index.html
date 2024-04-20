@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="js/main.js" defer></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Lab 7 - Data Processing Extended</title>
+  </head>
+  <body style="background-color: rgb(90, 90, 90);">
+    <h1>Lab 7 - Data Processing Extended</h1>
+
+    <div class="row">
+      <input id="name" placeholder="name">
+      <input id="id" placeholder="id">
+      <input id="gpa" placeholder="gpa">
+    </div>
+
+    <div class="row">
+      <input placeholder="Assignment 1" id="assignment1" />
+      <input placeholder="Assignment 2" id="assignment2" />
+      <input placeholder="Labs" id="labs" />
+      <input placeholder="Midterm" id="midterm" />
+      <input placeholder="Final" id="final" />
+      <button id="submit">submit</button>
+    </div>
+
+    <div class="row">
+      <button id="to_csv" style="display: inline">To CSV</button>
+      <button id="to_xml" style="display: inline">To XML</button>
+      <button id="to_json" style="display: inline">To JSON</button>
+    </div>
+
+    <table id="chart">
+      <thead>
+        <tr>  
+          <th class="green">name</th>
+          <th class="red">id</th>
+          <th class="blue">gpa</th>
+          <th>Assignment 1</th>
+          <th>Assignment 2</th>
+          <th>Labs</th>
+          <th>Midterm</th>
+          <th>Final</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  
+  </body>
+
+</html>
