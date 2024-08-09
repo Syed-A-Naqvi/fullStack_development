@@ -83,16 +83,64 @@ body{
     padding-bottom: 10px;
     width: 100%;
 }
-.post a img{
+.post img{
     width: inherit;
     height: auto;
     padding-top: 10px;
     padding-bottom: 10px;
+    transition: transform 2s;
 }
-.post .date{
+.post img:hover{
+    transform: scale(1.052);
+    transition-duration: 2s;
+}
+
+.post .date {
     font-weight: bold;
-    border-bottom: grey solid 2px;
     margin-bottom: 20px;
+    position: relative;
+    animation: dateSlider 10s infinite;
+    animation-delay: dateSlider 3s;
+}
+.post .date::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: grey;
+    position: absolute;
+    bottom: -2px; /* Position the border at the bottom */
+    left: 0;
+    animation: dateBorderShrinker 10s infinite;
+    animation-delay: 3s;
+}
+@keyframes dateSlider {
+    0% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+    50% {
+        opacity: 0;
+        transform: translateX(30%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+}
+@keyframes dateBorderShrinker {
+    0% {
+        opacity: 1;
+        width: 100%;
+    }
+    50% {
+        opacity: 1;
+        width: 30%;
+    }
+    100% {
+        opacity: 1;
+        width: 100%;
+    }
 }
 
 /* PAGE CONTENT - START*/
