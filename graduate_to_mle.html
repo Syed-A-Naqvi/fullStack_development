@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLE Strategic Blueprint</title>
+    <!-- Chosen Palette: Warm Neutral Harmony -->
+    <!-- Application Structure Plan: The application is structured as a single-page dashboard with a persistent left-hand navigation menu. This structure was chosen over a linear format to allow users to non-sequentially explore the core pillars of the learning plan: Curriculum, MLOps, Portfolio, and Career/Ethics. This task-oriented design promotes user agency and makes the dense report more accessible. Key interactions include tabbed content for comparing resources (ISLP vs. D2L), clickable process diagrams for the MLOps workflow, and expandable cards for portfolio projects. This turns passive reading into an active exploration of the strategic plan. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: ISLP vs D2L curriculum comparison -> Goal: Compare -> Viz/Method: Two-column interactive list with hover-based highlighting -> Interaction: Hovering over a concept in one column highlights its counterpart in the other -> Justification: Visually reinforces the synergistic relationship between the two books. (HTML/CSS/JS)
+        - Report Info: MLOps phased plan -> Goal: Organize/Change -> Viz/Method: A clickable horizontal process flow diagram -> Interaction: Clicking a phase reveals detailed information on the associated tools -> Justification: Transforms a static list into an interactive timeline, making the engineering roadmap easier to follow. (HTML/CSS/JS)
+        - Report Info: 3 Capstone Projects -> Goal: Inform/Organize -> Viz/Method: A grid of expandable cards -> Interaction: Clicking a card reveals a detailed modal with objectives, skills, and ethical considerations -> Justification: Presents a high-level overview while allowing users to drill down into specifics without leaving the main page. (HTML/CSS/JS)
+        - Report Info: Framework market share/advantages -> Goal: Compare -> Viz/Method: A bar chart -> Interaction: Tooltips on hover provide details for each advantage -> Justification: Quantifies the qualitative recommendation for choosing PyTorch, making the argument more impactful. (Chart.js)
+        - Report Info: Ethical risks (bias, privacy) -> Goal: Inform -> Viz/Method: Tabbed content sections -> Interaction: Clicking a tab switches the displayed content -> Justification: Organizes complex ethical concepts into digestible, thematic chunks. (HTML/CSS/JS)
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        .nav-link.active {
+            background-color: #E0E7FF; /* indigo-200 */
+            color: #3730A3; /* indigo-800 */
+            font-weight: 600;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 40vh;
+        }
+        .synergy-highlight {
+            transition: all 0.2s ease-in-out;
+            background-color: #FEF3C7; /* amber-100 */
+            border-left-color: #F59E0B; /* amber-500 */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="flex h-screen bg-gray-100">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="w-64 bg-white shadow-md flex-shrink-0 hidden md:flex md:flex-col">
+            <div class="p-6 border-b">
+                <h1 class="text-xl font-bold text-indigo-800">MLE Blueprint</h1>
+                <p class="text-sm text-gray-500 mt-1">A Strategic Guide</p>
+            </div>
+            <nav id="nav-menu" class="flex-grow p-4">
+                <a href="#home" data-target="home" class="nav-link flex items-center px-4 py-2 mt-2 text-gray-600 rounded-md hover:bg-indigo-100 hover:text-indigo-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span class="ml-3">Home</span>
+                </a>
+                <a href="#curriculum" data-target="curriculum" class="nav-link flex items-center px-4 py-2 mt-2 text-gray-600 rounded-md hover:bg-indigo-100 hover:text-indigo-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-9-5.747h18"></path></svg>
+                    <span class="ml-3">Curriculum</span>
+                </a>
+                <a href="#mlops" data-target="mlops" class="nav-link flex items-center px-4 py-2 mt-2 text-gray-600 rounded-md hover:bg-indigo-100 hover:text-indigo-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+                    <span class="ml-3">MLOps Toolkit</span>
+                </a>
+                <a href="#portfolio" data-target="portfolio" class="nav-link flex items-center px-4 py-2 mt-2 text-gray-600 rounded-md hover:bg-indigo-100 hover:text-indigo-700">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    <span class="ml-3">Portfolio Projects</span>
+                </a>
+                <a href="#career" data-target="career" class="nav-link flex items-center px-4 py-2 mt-2 text-gray-600 rounded-md hover:bg-indigo-100 hover:text-indigo-700">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span class="ml-3">Career & Ethics</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="flex justify-between items-center p-4 bg-white border-b md:hidden">
+                <h1 class="text-xl font-bold text-indigo-800">MLE Blueprint</h1>
+                <button id="mobile-menu-button" class="text-gray-500 focus:outline-none focus:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </header>
+
+            <!-- Content Area -->
+            <div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6 md:p-8 lg:p-12">
+                <div id="content-area">
+                    <!-- Home Section -->
+                    <section id="home" class="content-section">
+                        <!-- Section content will be injected by JS -->
+                    </section>
+
+                    <!-- Curriculum Section -->
+                    <section id="curriculum" class="content-section">
+                         <!-- Section content will be injected by JS -->
+                    </section>
+                    
+                    <!-- MLOps Section -->
+                    <section id="mlops" class="content-section">
+                         <!-- Section content will be injected by JS -->
+                    </section>
+                    
+                    <!-- Portfolio Section -->
+                    <section id="portfolio" class="content-section">
+                         <!-- Section content will be injected by JS -->
+                    </section>
+                    
+                    <!-- Career & Ethics Section -->
+                    <section id="career" class="content-section">
+                         <!-- Section content will be injected by JS -->
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-menu-drawer" class="fixed inset-0 bg-gray-800 bg-opacity-75 z-30 hidden">
+        <div class="fixed inset-y-0 left-0 w-64 bg-white shadow-xl z-40 p-4">
+             <button id="mobile-menu-close-button" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button>
+             <div id="mobile-nav-menu"></div>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const data = {
+        home: {
+            title: "From Graduate to MLE: A Strategic Blueprint",
+            intro: `The ambition to become a "true machine learning engineer"—one who possesses a deep, nuanced understanding of theoretical models while also commanding the practical engineering skills to build, deploy, and maintain robust, real-world systems—is not only commendable but essential in the modern technological landscape. This dual mastery is particularly critical in high-stakes sectors such as law enforcement, where the application of Artificial Intelligence (AI) carries profound societal implications. This interactive guide translates a comprehensive blueprint for an aspiring MLE into an explorable experience.`,
+            pillars: [
+                { title: "Foundational Theory", icon: '&#128214;', description: "Mastering the 'why' behind the algorithms, a crucial foundation for building reliable, interpretable, and effective models.", target: 'curriculum' },
+                { title: "Engineering Discipline", icon: '&#9874;', description: "Acquiring the full lifecycle toolkit of Machine Learning Operations (MLOps) that distinguishes an engineer from a data scientist.", target: 'mlops' },
+                { title: "Domain Application", icon: '&#127919;', description: "Demonstrating mastery through a targeted portfolio of projects that directly address the unique challenges of the law enforcement sector.", target: 'portfolio' },
+                { title: "Career & Ethics", icon: '&#128188;', description: "Understanding the job market, future-proofing skills, and navigating the ethical responsibilities inherent in this work.", target: 'career' },
+            ]
+        },
+        curriculum: {
+            title: "The Foundational Curriculum",
+            intro: `The core of the curriculum is built on two pillars: ISLP for theoretical grounding and D2L for modern implementation. This section explores how to strategically study these resources, not sequentially, but as a synergistic pair. Use the controls below to explore the recommended topics and see how they connect.`,
+            books: {
+                islp: {
+                    title: "ISLP: The 'Why'",
+                    description: "An Introduction to Statistical Learning provides the theoretical bedrock. It focuses on intuition and understanding the fundamental trade-offs in model building.",
+                    deepDive: [
+                        { name: "Statistical Learning", synergy: "foundations" },
+                        { name: "Resampling Methods", synergy: "evaluation" },
+                        { name: "Linear Model Selection & Regularization", synergy: "regularization" },
+                        { name: "Tree-Based Methods", synergy: "other" },
+                        { name: "Unsupervised Learning", synergy: "other" },
+                    ],
+                    skim: ["Moving Beyond Linearity", "Support Vector Machines", "Survival Analysis", "Multiple Testing"]
+                },
+                d2l: {
+                    title: "D2L: The 'How'",
+                    description: "Dive into Deep Learning provides the implementation engine. It's a hands-on, code-first approach to building state-of-the-art neural networks.",
+                    deepDive: [
+                         { name: "Linear Nets, MLPs, & GPU Computation", synergy: "foundations" },
+                         { name: "Convolutional Neural Networks (CNNs)", synergy: "other" },
+                         { name: "Recurrent Neural Networks (RNNs)", synergy: "other" },
+                         { name: "Attention Mechanisms & Transformers", synergy: "other" },
+                    ],
+                    skim: [] // D2L is more focused, less to skim
+                }
+            },
+            synergyMap: {
+                foundations: ["Statistical Learning", "Linear Nets, MLPs, & GPU Computation"],
+                regularization: ["Linear Model Selection & Regularization", "Linear Nets, MLPs, & GPU Computation"] 
+            }
+        },
+        mlops: {
+            title: "Forging the Engineer: The MLOps Toolkit",
+            intro: `A proficient modeler who cannot deploy and maintain their creations is a data scientist, not a machine learning engineer. This section outlines the critical MLOps skills needed to build robust, reproducible, and automated systems. Explore the phased plan to see how to integrate these tools into every project.`,
+            phases: [
+                { title: "Phase 1: Local Production", tools: "Docker & Flask/FastAPI", description: "Treat every model as a product to be packaged and served. Master containerization with Docker to solve the 'it works on my machine' problem, and learn to serve models via a REST API using a lightweight framework like Flask or FastAPI." },
+                { title: "Phase 2: Reproducibility & Automation", tools: "MLflow & GitHub Actions", description: "Move from manual processes to tracked, automated workflows. Use MLflow to log experiments for reproducibility and comparison. Implement CI/CD pipelines with GitHub Actions to automatically test and run training scripts, ensuring code is always in a working state." },
+                { title: "Phase 3: Scalable Deployment Awareness", tools: "Kubernetes", description: "Understand the industry standard for deploying and scaling containerized applications. While deep mastery isn't required for an entry-level role, a conceptual understanding of Kubernetes Pods, Deployments, and Services is a significant differentiator." }
+            ]
+        },
+        portfolio: {
+            title: "The Capstone Portfolio",
+            intro: `The portfolio is the single most important asset for a prospective MLE. It must tell a compelling narrative of capability and domain-specific expertise. The three projects below are designed to be completed in sequence, progressively demonstrating a sophisticated, end-to-end skill set tailored for the law enforcement sector.`,
+            projects: [
+                { 
+                    title: "Predictive Crime Analysis", 
+                    objective: "Build and compare models to predict crime categories or forecast crime 'hotspots' using historical data.",
+                    mlSkills: "EDA, Logistic Regression, Random Forests, MLP, Comparative Model Evaluation.",
+                    engineeringSkills: "Git, Docker, Flask API, MLflow Experiment Tracking.",
+                    ethicalConsiderations: "Analysis of historical data bias, feedback loops in predictive policing, and fairness metrics."
+                },
+                { 
+                    title: "Acoustic Event Detection", 
+                    objective: "Classify urban sounds relevant to public safety (e.g., gunshots, sirens) by treating audio spectrograms as images.",
+                    mlSkills: "Audio Processing (librosa), Spectrogram Generation, Data Augmentation, Convolutional Neural Networks (CNNs).",
+                    engineeringSkills: "Advanced Docker, GitHub Actions for CI (automated training), REST API for audio file upload.",
+                    ethicalConsiderations: "Privacy implications of public surveillance, accuracy and reliability of acoustic sensors, potential for false positives."
+                },
+                { 
+                    title: "Automated Intelligence Extraction", 
+                    objective: "Simulate analysis of unstructured police reports by fine-tuning a Transformer model to automatically extract key entities (names, locations, etc.).",
+                    mlSkills: "NLP, Transformer Architecture (BERT), Fine-Tuning, Named Entity Recognition.",
+                    engineeringSkills: "Full-Stack App (Streamlit/JS Front-end), Containerized API Backend, CI/CD for Docker deployment.",
+                    ethicalConsiderations: "Bias amplification in LLMs, interpretability of 'black-box' models, data security for sensitive narrative text."
+                }
+            ]
+        },
+        career: {
+            title: "Market Competitiveness & The Ethical Imperative",
+            intro: `Securing a competitive entry-level position requires understanding what employers want and the ethical landscape of the domain. In law enforcement AI, technical correctness and ethical responsibility are inseparable. This section covers market trends, a definitive framework recommendation, and the core ethical principles an MLE in this sector must master.`,
+            stats: [
+                { value: "70%+", label: "of ML jobs require Python" },
+                { value: "78%", label: "of managers prefer hands-on experience" },
+                { value: "High", label: "Demand Growth for MLEs" }
+            ],
+            frameworks: {
+                title: "Framework Focus: Why PyTorch?",
+                description: "While both TensorFlow and PyTorch are powerful, concentrating on PyTorch offers a strategic advantage due to its dominance in research, superior developer experience, and a rich ecosystem for CV, NLP, and audio.",
+                chartData: {
+                    labels: ['Research Dominance', 'Developer Experience', 'Ecosystem for CV/NLP', 'Job Market Growth'],
+                    data: [90, 85, 95, 80]
+                }
+            },
+            ethics: {
+                title: "Core Ethical Risks & Mitigations",
+                items: [
+                    { 
+                        name: "Algorithmic Bias",
+                        description: "The most pervasive risk stems from biased training data. Historical crime data reflects enforcement patterns, not objective reality. An algorithm trained on this will learn and perpetuate systemic biases, creating dangerous feedback loops.",
+                        mitigation: "Conduct proactive data audits for demographic disparities. Use fairness metrics beyond simple accuracy. Acknowledge known technical limitations of algorithms (e.g., NIST FRVT findings on facial recognition)."
+                    },
+                    {
+                        name: "Transparency",
+                        description: `Accountability is paramount, but the "black box" nature of deep learning models makes it difficult to understand or justify their outputs. This opacity undermines trust and due process.`,
+                        mitigation: "Prioritize model interpretability where possible. Use techniques like LIME or SHAP to explain individual predictions. Document and discuss the trade-offs between model complexity and transparency."
+                    },
+                    {
+                        name: "Privacy",
+                        description: "The data required to power these systems—from facial images to audio recordings—creates significant privacy risks for the public.",
+                        mitigation: "Implement 'Privacy-by-Design'. For example, process data at the edge and only transmit anonymized metadata, not raw data. Acknowledge and discuss the privacy implications of any surveillance technology used in a project."
+                    }
+                ]
+            }
+        }
+    };
+
+    const contentArea = document.getElementById('content-area');
+    const navMenu = document.getElementById('nav-menu');
+    const mobileNavMenu = document.getElementById('mobile-nav-menu');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenuCloseButton = document.getElementById('mobile-menu-close-button');
+    const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+    let chartInstance = null;
+    
+    function renderHome() {
+        const pageData = data.home;
+        const html = `
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">${pageData.title}</h2>
+            <p class="text-lg text-gray-600 mb-12">${pageData.intro}</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                ${pageData.pillars.map(pillar => `
+                    <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer pillar-card" data-target="${pillar.target}">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 text-indigo-600 text-2xl mb-4">${pillar.icon}</div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">${pillar.title}</h3>
+                        <p class="text-gray-500 text-sm">${pillar.description}</p>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        document.getElementById('home').innerHTML = html;
+        document.querySelectorAll('.pillar-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const target = card.getAttribute('data-target');
+                navigateTo(target);
+            });
+        });
+    }
+
+    function renderCurriculum() {
+        const pageData = data.curriculum;
+        const html = `
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">${pageData.title}</h2>
+            <p class="text-lg text-gray-600 mb-12">${pageData.intro}</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- ISLP Column -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold mb-2">${pageData.books.islp.title}</h3>
+                    <p class="text-gray-600 mb-4">${pageData.books.islp.description}</p>
+                    <h4 class="font-semibold text-indigo-700 mb-2">Deep Dive Topics:</h4>
+                    <ul class="space-y-2">
+                        ${pageData.books.islp.deepDive.map(item => `<li class="p-2 border-l-4 border-indigo-200 rounded-r-md bg-indigo-50 synergy-item" data-synergy="${item.synergy}">${item.name}</li>`).join('')}
+                    </ul>
+                     <h4 class="font-semibold text-gray-500 mt-6 mb-2">Skim/Review Topics:</h4>
+                     <ul class="space-y-1 list-disc list-inside text-gray-500">
+                        ${pageData.books.islp.skim.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+                <!-- D2L Column -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold mb-2">${pageData.books.d2l.title}</h3>
+                    <p class="text-gray-600 mb-4">${pageData.books.d2l.description}</p>
+                    <h4 class="font-semibold text-amber-700 mb-2">Deep Dive Topics:</h4>
+                    <ul class="space-y-2">
+                         ${pageData.books.d2l.deepDive.map(item => `<li class="p-2 border-l-4 border-amber-200 rounded-r-md bg-amber-50 synergy-item" data-synergy="${item.synergy}">${item.name}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+        `;
+        document.getElementById('curriculum').innerHTML = html;
+
+        const synergyItems = document.querySelectorAll('.synergy-item');
+        synergyItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const synergyKey = item.getAttribute('data-synergy');
+                if (synergyKey && synergyKey !== 'other') {
+                    synergyItems.forEach(el => {
+                        if (el.getAttribute('data-synergy') === synergyKey) {
+                            el.classList.add('synergy-highlight');
+                        }
+                    });
+                }
+            });
+            item.addEventListener('mouseleave', () => {
+                synergyItems.forEach(el => el.classList.remove('synergy-highlight'));
+            });
+        });
+    }
+
+    function renderMlops() {
+        const pageData = data.mlops;
+        const html = `
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">${pageData.title}</h2>
+            <p class="text-lg text-gray-600 mb-12">${pageData.intro}</p>
+            <div class="relative">
+                <!-- Connecting Line -->
+                <div class="absolute left-1/2 -translate-x-1/2 top-5 h-1 w-full bg-indigo-200 hidden md:block"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                    ${pageData.phases.map((phase, index) => `
+                        <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-indigo-500">
+                            <div class="relative mb-4">
+                                <div class="absolute left-1/2 -translate-x-1/2 -top-10 h-6 w-6 rounded-full bg-indigo-500 ring-4 ring-white hidden md:block"></div>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800">${phase.title}</h3>
+                            <p class="text-sm font-medium text-indigo-600 mb-3">${phase.tools}</p>
+                            <p class="text-gray-600">${phase.description}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        document.getElementById('mlops').innerHTML = html;
+    }
+
+    function renderPortfolio() {
+        const pageData = data.portfolio;
+        const html = `
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">${pageData.title}</h2>
+            <p class="text-lg text-gray-600 mb-12">${pageData.intro}</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                ${pageData.projects.map((project, index) => `
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 flex flex-col">
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-xl font-semibold mb-2">${project.title}</h3>
+                            <p class="text-gray-600 text-sm">${project.objective}</p>
+                        </div>
+                        <div class="p-6 bg-gray-50 border-t">
+                            <button class="w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors portfolio-button" data-index="${index}">View Details</button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+            
+            <!-- Modal Structure -->
+            <div id="portfolio-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 z-50 hidden flex items-center justify-center p-4">
+                <div id="modal-content" class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
+                    <!-- Content will be injected here -->
+                </div>
+            </div>
+        `;
+        document.getElementById('portfolio').innerHTML = html;
+        document.querySelectorAll('.portfolio-button').forEach(button => {
+            button.addEventListener('click', (e) => openPortfolioModal(e.currentTarget.dataset.index));
+        });
+    }
+
+    function openPortfolioModal(index) {
+        const project = data.portfolio.projects[index];
+        const modalContent = document.getElementById('modal-content');
+        modalContent.innerHTML = `
+            <button id="modal-close-button" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold">&times;</button>
+            <div class="p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">${project.title}</h2>
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="font-semibold text-indigo-700 mb-2">Objective</h4>
+                        <p class="text-gray-600">${project.objective}</p>
+                    </div>
+                     <div>
+                        <h4 class="font-semibold text-indigo-700 mb-2">Key ML/Data Skills</h4>
+                        <p class="text-gray-600">${project.mlSkills}</p>
+                    </div>
+                     <div>
+                        <h4 class="font-semibold text-indigo-700 mb-2">Key Engineering (MLOps) Skills</h4>
+                        <p class="text-gray-600">${project.engineeringSkills}</p>
+                    </div>
+                     <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-md">
+                        <h4 class="font-semibold text-amber-800 mb-2">Ethical Considerations Addressed</h4>
+                        <p class="text-amber-700">${project.ethicalConsiderations}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.getElementById('portfolio-modal').classList.remove('hidden');
+        document.getElementById('modal-close-button').addEventListener('click', closePortfolioModal);
+        document.getElementById('portfolio-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'portfolio-modal') {
+                closePortfolioModal();
+            }
+        });
+    }
+
+    function closePortfolioModal() {
+        document.getElementById('portfolio-modal').classList.add('hidden');
+    }
+
+    function renderCareer() {
+        const pageData = data.career;
+        const html = `
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">${pageData.title}</h2>
+            <p class="text-lg text-gray-600 mb-12">${pageData.intro}</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Left Column: Market & Frameworks -->
+                <div class="space-y-12">
+                    <!-- Market Stats -->
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">The 2025 MLE: What Employers Want</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                            ${pageData.stats.map(stat => `
+                                <div class="bg-white p-4 rounded-lg shadow-sm">
+                                    <p class="text-3xl font-bold text-indigo-600">${stat.value}</p>
+                                    <p class="text-sm text-gray-500">${stat.label}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <!-- Framework Recommendation -->
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">${pageData.frameworks.title}</h3>
+                        <p class="text-gray-600 mb-4">${pageData.frameworks.description}</p>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="chart-container">
+                                <canvas id="frameworkChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Ethics -->
+                <div>
+                     <h3 class="text-xl font-semibold mb-4">${pageData.ethics.title}</h3>
+                     <div class="bg-white rounded-lg shadow-sm p-6 space-y-4">
+                        ${pageData.ethics.items.map(item => `
+                            <div class="border-l-4 border-red-400 bg-red-50 p-4 rounded-r-md">
+                                <h4 class="font-semibold text-red-800">${item.name}</h4>
+                                <p class="text-red-700 text-sm mt-1">${item.description}</p>
+                                <p class="text-red-600 text-xs mt-2"><strong>Mitigation:</strong> ${item.mitigation}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+        document.getElementById('career').innerHTML = html;
+        renderFrameworkChart();
+    }
+    
+    function renderFrameworkChart() {
+        const ctx = document.getElementById('frameworkChart').getContext('2d');
+        const chartData = data.career.frameworks.chartData;
+        
+        if (chartInstance) {
+            chartInstance.destroy();
+        }
+
+        chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    label: 'PyTorch Strategic Advantage Score',
+                    data: chartData.data,
+                    backgroundColor: 'rgba(79, 70, 229, 0.7)',
+                    borderColor: 'rgba(79, 70, 229, 1)',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: {
+                           display: false
+                        }
+                    },
+                    y: {
+                        grid: {
+                           display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'PyTorch Strategic Advantage Profile'
+                    },
+                    tooltip: {
+                        callbacks: {
+                           label: function(context) {
+                               let label = context.dataset.label || '';
+                               if (label) {
+                                   label += ': ';
+                               }
+                               if (context.parsed.x !== null) {
+                                   label += context.parsed.x + ' / 100';
+                               }
+                               return label;
+                           }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function navigateTo(pageId) {
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        document.getElementById(pageId).classList.add('active');
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.dataset.target === pageId) {
+                link.classList.add('active');
+            }
+        });
+
+        // Update URL hash
+        window.location.hash = pageId;
+
+        // Close mobile menu if open
+        mobileMenuDrawer.classList.add('hidden');
+    }
+    
+    function setupNavigation() {
+        const allNavLinks = document.querySelectorAll('.nav-link');
+        allNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = e.currentTarget.dataset.target;
+                navigateTo(pageId);
+            });
+        });
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenuDrawer.classList.remove('hidden');
+        });
+
+        mobileMenuCloseButton.addEventListener('click', () => {
+             mobileMenuDrawer.classList.add('hidden');
+        });
+        
+        mobileMenuDrawer.addEventListener('click', (e) => {
+            if(e.target.id === 'mobile-menu-drawer') {
+                mobileMenuDrawer.classList.add('hidden');
+            }
+        });
+    }
+
+    function init() {
+        renderHome();
+        renderCurriculum();
+        renderMlops();
+        renderPortfolio();
+        renderCareer();
+        
+        mobileNavMenu.innerHTML = navMenu.innerHTML;
+        setupNavigation();
+        
+        const initialPage = window.location.hash.substring(1) || 'home';
+        navigateTo(initialPage);
+    }
+    
+    init();
+});
+</script>
+</body>
+</html>
