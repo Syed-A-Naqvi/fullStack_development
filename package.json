@@ -1,0 +1,24 @@
+{
+  "name": "fullstack_development",
+  "version": "1.0.0",
+  "description": "fullstack practice repo",
+  "main": "index.js",
+  "scripts": {
+    "test": "console.log('HELLOO ARIGATOOO')"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Syed-A-Naqvi/fullStack_development.git"
+  },
+  "keywords": [
+    "practice",
+    "improvement",
+    "fullstack"
+  ],
+  "author": "Arham",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Syed-A-Naqvi/fullStack_development/issues"
+  },
+  "homepage": "https://github.com/Syed-A-Naqvi/fullStack_development#readme"
+}

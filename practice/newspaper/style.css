@@ -6,6 +6,8 @@ body {
     padding: 30px;
 }
 
+
+/* ------------- PAGE LAYOUT -------------- */
 .page {
     display: grid;
     grid-template-areas: 
@@ -15,10 +17,29 @@ body {
         "ar4"    "ar5"    "ar5";
 }
 
+
+/* ------------- TITLE -------------- */
+
+.title {
+    grid-area: header;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.title h1 {
+    font-family: "Pinyon Script", cursive;
+    font-size: 100px;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+/* ------------- NAVBAR -------------- */
 .navbar {
     border: 3px solid black;
-    font-family: "Futura";
-    font-size: 30px;
+    border-bottom: 0px;
+    font-family: "JetBrains Mono Bold", monospace;
+    font-size: 45px;
     font-weight: bold;
     color: grey;
 }
@@ -36,13 +57,13 @@ body {
     color: inherit;
 }
 
-.title {
-    grid-area: header;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: "Pinyon Script", cursive;
-    font-size: xx-large;
-}
 
+/* ------------- ARTICLES -------------- */
+.story-1, .story-2, .story-3, .story-4, .story-5 {
+    border: 3px solid black;
+    padding: 10px;
+    font-family: ""Arial", sans-serif;
+}
+.story-1, .story-2, .story-3, .story-4, .story-5 h3 {
+    font-size: 30px;
+}
