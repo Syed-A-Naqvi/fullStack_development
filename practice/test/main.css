@@ -1,0 +1,493 @@
+/* 
+ * main.css - Main styling for the portfolio website
+ * Contains global styles, variables, and utility classes
+ */
+
+/* Custom CSS Variables */
+:root {
+    /* Global Responsive Scale Factor
+     * This combines viewport width and height for better scaling
+     * across different device orientations and sizes
+     */
+    --scale-factor: calc((1vw + 1vh) / 2);
+    --scale-factor-small: calc(0.5 * var(--scale-factor));
+    --scale-factor-medium: var(--scale-factor);
+    --scale-factor-large: calc(1.5 * var(--scale-factor));
+
+    /* Color Palette: Light Mode (Authoritative & Warm) */
+
+    /* Deeper Earth Yellow - Headings */
+    --color-primary: #B8954A;
+    --color-primary-rgb: 184, 149, 74;
+
+    /* Warm Neutral Grey - Links, icons */
+    --color-secondary: #78716C;
+    --color-secondary-rgb: 120, 113, 108;
+
+    /* Rich Burgundy - CTA buttons */
+    --color-tertiary: #7A1E2A;
+    --color-tertiary-rgb: 122, 30, 42;
+
+    /* Light Slate Grey - Dividers, subtle backgrounds */
+    --color-quaternary: #E5E7EB;
+    --color-quaternary-rgb: 229, 231, 235;
+
+    /* Soft Off-White - Main background */
+    --color-background: #F9FAFB;
+    --color-background-rgb: 249, 250, 251;
+
+    /* Light Grey - Cards, panels */
+    --color-surface: #F3F4F6;
+    --color-surface-rgb: 243, 244, 246;
+
+    /* Dark Grey - Body text */
+    --color-text: #374151;
+    --color-text-rgb: 55, 65, 81;
+
+    /* Deep Slate Grey - Headings for emphasis */
+    --color-text-heading: #1F2937;
+    --color-text-heading-rgb: 31, 41, 55;
+
+    /* Medium Grey - Secondary text */
+    --color-text-subtle: #6B7280;
+    --color-text-subtle-rgb: 107, 114, 128;
+
+    /* Common border styles */
+    --main-content-border: 1px solid var(--color-secondary);
+    --border-thin: 1px solid var(--color-quaternary);
+    --border-medium: 2px solid var(--color-secondary);
+    --border-thick: 3px solid var(--color-secondary);
+
+    /* Typography */
+    --font-heading: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-body: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-code: ui-monospace, "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+    
+    /* Font sizes - responsive using clamp(min, preferred, max) with the global scale factor */
+    --font-size-xs: clamp(0.7rem, 0.675rem + 0.25 * var(--scale-factor-small), 0.75rem);
+    --font-size-sm: clamp(0.8rem, 0.775rem + 0.25 * var(--scale-factor-small), 0.9rem);
+    --font-size-base: clamp(0.9rem, 0.85rem + 0.3 * var(--scale-factor-small), 1rem);
+    --font-size-md: clamp(1rem, 0.95rem + 0.3 * var(--scale-factor-medium), 1.1rem);
+    --font-size-lg: clamp(1.1rem, 1rem + 0.4 * var(--scale-factor-medium), 1.25rem);
+    --font-size-xl: clamp(1.25rem, 1.15rem + 0.5 * var(--scale-factor-medium), 1.5rem);
+    --font-size-xxl: clamp(1.5rem, 1.35rem + 0.6 * var(--scale-factor-large), 2rem);
+    --font-size-xxxl: clamp(2rem, 1.75rem + 0.75 * var(--scale-factor-large), 2.5rem);
+    
+    /* Font weights */
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    
+    /* Line heights */
+    --line-height-tight: 1.15;
+    --line-height-snug: 1.25;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.7;
+    
+    /* Letter spacing */
+    --letter-spacing-tight: -0.02em;
+    --letter-spacing-normal: 0;
+    --letter-spacing-wide: 0.05em;
+    
+    /* Spacing - responsive using clamp(min, preferred, max) with the global scale factor */
+    --spacing-xxs: clamp(0.1rem, 0.095rem + 0.05 * var(--scale-factor-small), 0.125rem);
+    --spacing-xs: clamp(0.2rem, 0.19rem + 0.1 * var(--scale-factor-small), 0.25rem);
+    --spacing-sm: clamp(0.4rem, 0.375rem + 0.15 * var(--scale-factor-small), 0.5rem);
+    --spacing-md: clamp(0.75rem, 0.7rem + 0.3 * var(--scale-factor-medium), 1rem);
+    --spacing-lg: clamp(1.1rem, 1rem + 0.5 * var(--scale-factor-medium), 1.5rem);
+    --spacing-xl: clamp(1.5rem, 1.35rem + 0.65 * var(--scale-factor-medium), 2rem);
+    --spacing-xxl: clamp(2rem, 1.75rem + 0.85 * var(--scale-factor-large), 3rem);
+    --spacing-xxxl: clamp(2.5rem, 2.125rem + 1.25 * var(--scale-factor-large), 4rem);
+    
+    /* Border Radius - responsive using em and the global scale factor */
+    --border-radius-sm: clamp(0.25em, calc(0.25em + 0.15 * var(--scale-factor-small)), 0.35em);
+    --border-radius-md: clamp(0.5em, calc(0.5em + 0.2 * var(--scale-factor-small)), 0.65em);
+    --border-radius-lg: clamp(0.75em, calc(0.75em + 0.25 * var(--scale-factor-medium)), 1em);
+    --border-radius-pill: 999px; /* Intentionally fixed for pill shape */
+    --border-radius-circle: 50%; /* Percentage is already responsive */
+    
+    /* Box Shadows - responsive using em units */
+    --shadow-sm: 0 0.125em 0.25em rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 0.25em 0.375em rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 0.625em 0.9375em rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 0.75em 1.25em rgba(0, 0, 0, 0.212);
+    
+    /* Transitions */
+    --transition-speed-fast: 100ms; /* Keeping ms for transitions as they're time-based, not size-based */
+    --transition-speed: 200ms;
+    --transition-speed-slow: 300ms;
+    --transition-ease: ease-out;
+    --translate-x: clamp(0.25em, 0.2 * var(--scale-factor-medium), 0.5em); /* Responsive translation values using scale factor */
+    --translate-y: clamp(0.375em, 0.25 * var(--scale-factor-medium), 0.75em);
+    
+    /* Container dimensions - responsive using global scale factor */
+    --sidebar-width: 200px;
+    --topbar-height: 130px;
+    --content-width: calc(100dvw - var(--sidebar-width) - 5*var(--spacing-xl)); /* Adjusted for padding/margin */
+    --section-spacing: var(--spacing-xxl); /* Already responsive through --spacing-xxl */
+    
+    /* Z-index layers */
+    --z-index-base: 1;
+    --z-index-above: 5;
+    --z-index-navigation: 100;
+    --z-index-modal: 1000;
+}
+
+/* Dark mode theme variables */
+.dark-theme {
+    /* Color Palette: Dark Mode (Authoritative & Warm) */
+    
+    /* Earth Yellow Gold - Headings */
+    --color-primary: #E7BC7A;
+    --color-primary-rgb: 231, 188, 122;
+
+    /* Warm Brown Grey - Links, icons */
+    --color-secondary: #8B7765;
+    --color-secondary-rgb: 139, 119, 101;
+
+    /* Brighter Deep Burgundy - CTA buttons */
+    --color-tertiary: #8B2635;
+    --color-tertiary-rgb: 139, 38, 53;
+
+    /* Dark Slate Grey - Dividers, subtle backgrounds */
+    --color-quaternary: #2A2B2D;
+    --color-quaternary-rgb: 42, 43, 45;
+
+    /* Dark Charcoal - Main background */
+    --color-background: #141516;
+    --color-background-rgb: 20, 21, 22;
+
+    /* Subtle Charcoal - Cards, panels */
+    --color-surface: #212223;
+    --color-surface-rgb: 33, 34, 35;
+
+    /* Warm Cream - Body text */
+    --color-text: #E8E3D8;
+    --color-text-rgb: 232, 227, 216;
+
+    /* Off-White Cream - Headings for emphasis */
+    --color-text-heading: #F5F1E8;
+    --color-text-heading-rgb: 245, 241, 232;
+
+    /* Medium Warm Grey - Secondary text */
+    --color-text-subtle: #B8AFA2;
+    --color-text-subtle-rgb: 184, 175, 162;
+
+    --main-content-border: 1px solid var(--color-quaternary);
+    --border-thin: 1px solid var(--color-quaternary);
+    --border-medium: 2px solid var(--color-secondary);
+    --border-thick: 3px solid var(--color-secondary);
+
+}
+
+
+/* MailtoUI styles
+/* Modal surface and typography */
+/* .mailtoui-modal-content {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-xl);
+} */
+
+/* Title */
+/* .mailtoui-modal-title {
+  color: var(--color-text-heading);
+  background-color: var(--color-background);
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+} */
+
+/* Email address copy row */
+/* .mailtoui-email-address {
+  background: var(--color-surface);
+  color: var(--mailtoui-text-color);
+  border-radius: var(--border-radius-lg);
+} */
+
+/* Primary action cards */
+/* .mailtoui-button-content {
+  background: var(--mailtoui-btn-bg);
+  color: var(--mailtoui-btn-text-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: background var(--transition-speed) var(--transition-ease),
+              color var(--transition-speed) var(--transition-ease);
+} */
+
+/* Hover/focus states; recolors SVG via currentColor */
+/* .mailtoui-button-content:hover,
+.mailtoui-button:focus .mailtoui-button-content {
+  background: var(--mailtoui-btn-bg-hover);
+  color: var(--color-background);
+} */
+
+/* Copy button */
+/* .mailtoui-button-copy {
+  background: var(--color-surface);
+  color: var(--mailtoui-text-color);
+  border-radius: var(--border-radius-lg) 0 0 var(--border-radius-lg);
+} */
+
+
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow: hidden;
+    /* Improve text rendering */
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-body);
+    /* Improve performance with content-visibility */
+    content-visibility: auto;
+    contain: content;
+}
+
+/* Typography */
+/* Headings use heading color for emphasis */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--color-text-heading);
+    font-weight: 600;
+}
+
+
+/* Heading hierarchy: size, weight, and line-height for clarity and balance */
+h1 {
+    font-size: var(--font-size-xxxl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    margin-bottom: var(--spacing-md);
+}
+
+h2 {
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-snug);
+    letter-spacing: var(--letter-spacing-tight);
+    margin-bottom: var(--spacing-sm);
+}
+
+h3 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-snug);
+    margin-bottom: var(--spacing-sm);
+}
+
+h4 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-snug);
+    margin-bottom: var(--spacing-xs);
+}
+
+h5 {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-snug);
+    margin-bottom: var(--spacing-xs);
+}
+
+h6 {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-snug);
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Body text, lists, and blockquotes use main text color */
+p, li, blockquote {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-relaxed);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Links use secondary color, hover uses tertiary */
+a, a i {
+    color: var(--color-secondary);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    transition: color var(--transition-speed) var(--transition-ease);
+}
+
+a:hover, a i:hover {
+    color: var(--color-tertiary);
+}
+
+/* Standard buttons */
+button, .btn {
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-ease);
+}
+
+/* Form elements */
+input, textarea, select {
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    padding: var(--spacing-sm);
+    border: var(--border-thin);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+}
+
+/* Container Layout */
+/* Main container uses background color */
+.container {
+    display: flex;
+    padding: var(--spacing-xl);
+    width: 100dvw;
+    height: 100dvh; /* Use small viewport height for stability */
+    background-color: var(--color-background);
+}
+
+/* Main content area uses surface color and shadow for separation */
+.main-content {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
+    border-radius: var(--border-radius-lg);
+    border: 2px solid rgba(120, 113, 108, 0.12); /* subtle border for realism */
+    background-color: var(--color-surface);
+    /* Realistic floating effect: multi-layered shadow, slight transform */
+    box-shadow:
+        0 8px 32px 0 rgba(0,0,0,0.32), /* deep shadow */
+        0 2px 8px 0 rgba(0,0,0,0.18), /* mid shadow */
+        0 1px 3px 0 rgba(0,0,0,0.12); /* surface contact */
+    /* box-shadow: [horizontal offset] [vertical offset] [blur radius] [spread radius] [color] [inset]; */
+}
+
+/* Content Views */
+.content-view {
+    display: none;
+    animation: fade-in 0.3s ease-in-out;
+}
+
+.content-view.active {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: var(--spacing-xl) var(--spacing-xxl);
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Utility Classes */
+/* Subtitles and secondary text */
+.subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--color-secondary);
+    margin-bottom: var(--spacing-xl);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-primary {
+    color: var(--color-primary);
+}
+
+.text-secondary {
+    color: var(--color-secondary);
+}
+
+.text-tertiary {
+    color: var(--color-tertiary);
+}
+
+.text-subtle {
+    color: var(--color-text-subtle);
+}
+
+.margin-bottom-xs {
+    margin-bottom: var(--spacing-xs);
+}
+
+.margin-bottom-sm {
+    margin-bottom: var(--spacing-sm);
+}
+
+.margin-bottom-md {
+    margin-bottom: var(--spacing-md);
+}
+
+.margin-bottom-lg {
+    margin-bottom: var(--spacing-lg);
+}
+
+.margin-bottom-xl {
+    margin-bottom: var(--spacing-xl);
+}
+
+.padding-md {
+    padding: var(--spacing-md);
+}
+
+.padding-lg {
+    padding: var(--spacing-lg);
+}
+
+.section-heading {
+    margin-bottom: var(--spacing-xl);
+}
+
+.hidden {
+    display: none;
+}
+
+/* Media Queries for Responsive Design - For Global Layout Only */
+/* Mobile and small screen optimization */
+
+@media screen and (max-width: 800px) {
+    /* Container adjustments */
+    .container {
+        flex-direction: column;
+    }
+    
+    /* Main content adjustments */
+    .main-content {
+        margin-top: var(--topbar-height);
+        height: calc(100dvh - var(--topbar-height) - 2*var(--spacing-xl));
+        z-index: var(--z-index-base);
+        width: calc(100dvw - 2*var(--spacing-xl));
+    }
+    
+}
